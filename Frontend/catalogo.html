@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Panadería deliciosa</title>
+    <script src="script.js"></script>
+
+</head>
+<body>
+    <header>
+        <h1>CarmaKeys's</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="item">Inicio</a></li>
+                <li><a href="" class="item">Catálogo</a></li>
+                <li><a href="pedidos.html" class="item">Pedidos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="catalog">
+        <!-- Tarjeta 1 -->
+        <div class="card">
+            <img src="producto1.jpg" alt="Producto 1">
+            <p>Descripción del Producto 1.</p>
+        </div>
+
+        <!-- Tarjeta 2 -->
+        <div class="card">
+            <img src="producto2.jpg" alt="Producto 2">
+            <p>Descripción del Producto 2.</p>
+        </div>
+
+        <!-- Agrega más tarjetas según sea necesario -->
+    </section>
+
+    <section id="order-form">
+        <form id="product-form">
+            <label for="product-select">Seleccionar Producto:</label>
+            <select id="product-select">
+                <option value="producto1">Producto 1</option>
+                <option value="producto2">Producto 2</option>
+                <!-- Agrega más opciones según sea necesario -->
+            </select>
+
+            <label for="quantity-input">Cantidad (Mínimo 3):</label>
+            <input type="number" id="quantity-input" name="quantity" min="3" value="3">
+
+            <button type="button" onclick="addToOrder()">Agregar al Pedido</button>
+            <button type="button" onclick="sendToDatabase()" id="rpedido" disabled>Realizar Pedido</button>
+
+        </form>
+
+        <ul id="product-list"></ul>
+
+        <table id="order-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody id="order-body"></tbody>
+        </table>
+    </section>
+
+    <footer>
+        <div class="footer-section">
+            <p>Información de la Panadería:</p>
+            <p>¡Descubre nuestros deliciosos panes, pasteles y dulces!</p>
+            <p>Dirección: Fabian Vasquez, Aymesa </p>
+        </div>
+        <div class="footer-section">
+            <p>Información del Desarrollador:</p>
+            <p>Desarrollado por: Jhosue Villacres</p>
+            <p>Contacto: jvillacresp2@est.ups.edu.ec</p>
+            <p>GitHub: <a href="https://github.com/Adr802">Clic aquí</a></p>
+            <p>&copy; 2024 CarmaKeys's. Todos los derechos reservados.</p>
+        </div>
+
+    </footer>
+    
+</body>
+</html>
