@@ -1,4 +1,5 @@
 var lista = "";
+var totalPedido = 0;
 
 function addToOrder() {
     var productSelect = document.getElementById('product-select');
@@ -11,21 +12,30 @@ function addToOrder() {
         alert("La cantidad mínima es 3.");
         return;
     }
-    var producto = selectedProduct;
-    var cantidad = quantity;
-    
-    lista += "Producto: " + selectedProduct + " Cantidad: " + quantity + "\n";
 
-    console.log(lista)
+    // Obtener el precio del producto seleccionado
+    var selectedOption = productSelect.options[productSelect.selectedIndex];
+    var precioProducto = parseFloat(selectedOption.value);
+
+    // Calcular el subtotal del producto
+    var subtotal = precioProducto * quantity;
+
+    // Ajustamos el formato de la cadena
+    lista += `Producto: ${selectedProduct}, Cantidad: ${quantity}\n`;
+
+    // Actualizar el total del pedido
+    totalPedido += subtotal;
+
+    console.log(lista);
 
     quantityInput.value = 3;
 
     rpedido.disabled = lista === "";
 
-    updateOrderTable(producto, cantidad);
+    updateOrderTable(selectedProduct, quantity, precioProducto, subtotal);
 }
 
-function updateOrderTable(producto, cantidad) {
+function updateOrderTable(producto, cantidad, precio, subtotal) {
     var orderTable = document.getElementById('order-table');
     var orderBody = orderTable.getElementsByTagName('tbody')[0];
 
@@ -33,25 +43,60 @@ function updateOrderTable(producto, cantidad) {
     var row = orderBody.insertRow();
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
 
     cell1.textContent = producto;
-    cell2.textContent = cantidad; 
+    cell2.textContent = cantidad;
+    cell3.textContent = `$${precio.toFixed(2)}`;
+    cell4.textContent = `$${subtotal.toFixed(2)}`;
 }
+
 function sendToDatabase() {
-    console.log('Enviando a la base de datos:', lista);
-    clearTable();
-    showAlert('¡Pedido registrado exitosamente!');
+    if (lista.trim() === "") {
+        alert("Agrega productos al pedido antes de realizarlo.");
+        return;
+    }
+
+    const nr = Math.floor(Math.random() * 2) + 1;
+    const idRepartidor = nr;
+
+    // Calcula el total del pedido
+    const totalPedido = calcularTotalPedido();
+
+    // Agrega el total a la variable lista
+    lista += `\nTOTAL: $${totalPedido.toFixed(2)}`;
+
+    console.log(lista);
+
+    fetch('http://localhost:3000/guardarPedido', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ lista, idRepartidor }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Pedido guardado exitosamente:', data);
+            clearTable(); 
+            showAlert('¡Pedido registrado exitosamente!');
+        })
+        .catch(error => console.error('Error al guardar pedido:', error));
 }
 
 function clearTable() {
     var orderBody = document.getElementById('order-body');
     orderBody.innerHTML = '';
     rpedido.disabled = true;
- 
+    lista = ""; 
+    totalPedido = 0; 
 }
+
 function showAlert(message) {
     alert(message);
 }
+
 
 //BASE DE DATOS  =================
 function cargarDatos() {
@@ -91,3 +136,29 @@ function cargarDatos() {
   document.addEventListener('DOMContentLoaded', function () {
     cargarDatos(); 
   });
+  function sendToDatabase() {
+    // Verificar si hay productos en la lista
+    if (lista.trim() === "") {
+        alert("Agrega productos al pedido antes de realizarlo.");
+        return;
+    }
+
+    // Obtener el ID del repartidor (ajusta según tu lógica)
+    const idRepartidor = 1;
+
+    // Hacer una solicitud POST al servidor para guardar el pedido
+    fetch('http://localhost:3000/guardarPedido', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ lista, idRepartidor }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Pedido guardado exitosamente:', data);
+            clearTable(); // Limpiar la tabla después de guardar el pedido
+            showAlert('¡Pedido registrado exitosamente!');
+        })
+        .catch(error => console.error('Error al guardar pedido:', error));
+}
