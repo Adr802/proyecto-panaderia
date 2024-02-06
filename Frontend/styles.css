@@ -210,3 +210,6 @@ button:hover {
 #pedidos-table tbody tr:hover {
     background-color: #e0e0e0;
 }
+#precio-producto{
+    font-weight: bold;
+}

@@ -29,4 +29,3 @@ INSERT INTO public.repartidor(
 INSERT INTO public.repartidor(
 	cedula, nombre, correo)
 	VALUES ('08500132699', 'Cristhian Villacres', 'cristhian@gmail.com');
-	

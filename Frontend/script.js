@@ -53,3 +53,41 @@ function showAlert(message) {
     alert(message);
 }
 
+//BASE DE DATOS  =================
+function cargarDatos() {
+    const productSelect = document.getElementById('product-select');
+    const precioProducto = document.getElementById('precio-producto');
+
+    fetch('http://localhost:3000/productos') 
+      .then(response => response.json())
+      .then(data => {
+        console.log('Datos obtenidos:', data);
+        data.forEach(producto => {
+            const option = document.createElement('option');
+            option.textContent = producto.descripcion;
+            option.value = producto.precio; 
+            productSelect.appendChild(option);
+        });
+        // Llenar las tarjetas con los datos de los productos recibidos
+        data.forEach(producto => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+                <img src="${producto.imagen}.png" alt="${producto.descripcion}">
+                <p class="descripcion">${producto.descripcion}</p>
+                <p class="precio">Precio: $${producto.precio}</p>
+            `;
+            document.getElementById('catalog').appendChild(card);})
+        
+
+      })
+      .catch(error => console.error('Error al obtener datos:', error));
+      productSelect.addEventListener('change', function () {
+        const selectedOption = productSelect.options[productSelect.selectedIndex];
+        precioProducto.textContent = 'Precio: $' + selectedOption.value;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    cargarDatos(); 
+  });
