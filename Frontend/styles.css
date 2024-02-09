@@ -213,3 +213,19 @@ button:hover {
 #precio-producto{
     font-weight: bold;
 }
+.select-container {
+    margin-bottom: 10px;
+}
+
+.select-container label {
+    font-weight: bold;
+}
+
+.select-container select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}

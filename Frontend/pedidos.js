@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function cargarPedidos() {
     try {
         const tableBody = document.querySelector('#pedidos-table tbody');
-        const response = await fetch('http://localhost:3000/pedidos'); // Ajusta la ruta según tu servidor
+        const response = await fetch('http://localhost:3000/pedidos'); 
         const data = await response.json();
         
         console.log(data)
@@ -18,7 +18,7 @@ async function cargarPedidos() {
             const cell2 = row.insertCell(1);
             const cell3 = row.insertCell(2);
 
-            cell1.textContent = pedido.productos;
+            cell1.innerHTML = pedido.productos;
             cell2.textContent = pedido.nombre;
             cell3.textContent = pedido.estado;
         });

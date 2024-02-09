@@ -36,16 +36,24 @@ app.post('/guardarPedido', async (req, res) => {
       res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
+
 app.get('/productos', async (req, res) => {
   try {
-    const { rows } = await pool.query('SELECT * FROM producto');
+    let query = 'SELECT * FROM producto';
+    const categoria = req.query.categoria;
+    
+    // Si se proporciona un parámetro de categoría en la solicitud, filtrar por esa categoría
+    if (categoria) {
+      query += ` WHERE categoria = '${categoria}'`;
+    }
+
+    const { rows } = await pool.query(query);
     res.json(rows);
   } catch (error) {
-    console.error('Error al obtener datos:', error);
+    console.error('Error al obtener productos:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
-
 app.get('/pedidos', async (req, res) => {
   try {
     // Realizar una consulta anidada para obtener los datos del pedido, incluyendo el nombre del repartidor y el estado
